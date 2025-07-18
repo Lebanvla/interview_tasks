@@ -54,4 +54,3 @@ if($connection->query($query_1)){
 }else{
     echo "Неизвестная ошибка сервера\n";
 }
-?>

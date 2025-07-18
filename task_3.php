@@ -1,27 +1,61 @@
 <?php
-    /*
-    Для работы скрипта необходимо выполнить задать значения переменных: 
-    сервер(на котором расположена база данных), имя пользователя, пароль и порт, если он отличается от стандартного
-    */
-    $host = "localhost";
-    $username = "root";
-    $password = "qq";
-    $port = null;
-    $connection = new mysqli($host, $username, $password, "site", $port);
-
-
-    function get_comments(mysqli $connection): mysqli_result{
-        $result = $connection->query("select text from comments;");
-        return $result;
-    }
-?>
-
-
-<?php
+    include("./logic/task_3.php");
+    
     if($_SERVER["REQUEST_METHOD"] === "GET"){
-        include("./templates/task_3.php");
+        $title = "Задание 3";
+        include("./templates/header.php");
+        ?>
+
+        <body class="container">
+            <h1 class="text-center">
+                Комментарии
+            </h1>
+            <section style="background-color: #f7f6f6;">
+                <div class="container my-5 py-5 text-body">
+                
+                <?php
+                    $comments = get_comments($connection);
+                    while ($row = $comments->fetch_row()) {
+                ?>
+                <div class="row d-flex justify-content-center">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="d-flex flex-start">
+                                <div class="w-100">
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        <h6 class="text-primary mb-0">
+                                            <span class="text-body ms-2">
+                                                <?=htmlspecialchars($row[0])?>
+                                            </span>
+                                        </h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <?php
+                    }
+                    ?>
+
+                </div>
+            </section>
+
+            
+            <br>
+            <form action="task_3.php" name="add_comment" method="post">
+                <div class="mb-3">
+                    <label class="form-label">Комментарий</label>
+                    <input type="text" class="form-control" id="commentary_text" name="commentary_text">
+                    <div id="commentary_help" class="form-text">Введите текст своего комментария</div>
+                </div>
+                <button type="submit" class="btn btn-success">Написать комментарий</button>
+            </form>
+        </body>
+        <?php
     }
     else{
-        include("./logic/task_3.php");
+        create_comment($connection);
     }
 ?>
