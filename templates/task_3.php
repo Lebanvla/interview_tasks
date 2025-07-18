@@ -1,9 +1,7 @@
 <?php
     $title = "Задание 3";
-    include("./header.php");
+    include("header.php");
 ?>
-
-
 
 <body class="container">
     <h1 class="text-center">
